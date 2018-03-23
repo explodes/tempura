@@ -217,24 +217,6 @@ func TestObjectSet_Iterator_nil(t *testing.T) {
 	assert.Equal(t, 0, iterSize)
 }
 
-func TestObjectSet_RemoveWhileIteratingStillIteratesItem(t *testing.T) {
-	testObj1 := newTestObject("tag")
-	testObj2 := newTestObject("tag")
-	set := NewObjectSet()
-	set.add(testObj1.obj)
-	set.add(testObj2.obj)
-
-	count := 0
-	iter := set.Iterator()
-	for _, ok := iter(); ok; _, ok = iter() {
-		set.remove(testObj2.obj)
-		count++
-	}
-
-	assert.Equal(t, 2, count)
-	assert.Equal(t, 1, set.Len())
-}
-
 func TestObjectSet_IteratorOrder(t *testing.T) {
 	set := NewObjectSet()
 	var expectedOrder []*Object

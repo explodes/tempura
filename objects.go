@@ -25,7 +25,7 @@ type TaggedObjectContainer interface {
 // for obj, ok := iter(); ok; obj, ok = iter() {
 //   ..use obj..
 // }
-// Objects removed during iteration will still be present in the iterator.
+// Removing an object during iteration is undefined.
 type ObjectIterator func() (next *Object, ok bool)
 
 // Layers is a container for multiple Objects collections such that
