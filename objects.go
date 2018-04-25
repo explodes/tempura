@@ -76,6 +76,7 @@ func (ly Layers) Contains(obj *Object) bool {
 }
 
 // Iterator returns an ObjectIterator for all objects in all layers
+// from the lowest layer to highest
 func (ly Layers) Iterator() ObjectIterator {
 	iters := make([]ObjectIterator, len(ly))
 	for index, layer := range ly {
@@ -84,17 +85,44 @@ func (ly Layers) Iterator() ObjectIterator {
 	return chainIterators(iters)
 }
 
+// Iterator returns an ObjectIterator for all objects in all layers
+// from the highest layer to lowest
+func (ly Layers) IteratorTop() ObjectIterator {
+	iters := make([]ObjectIterator, len(ly))
+	for index := len(ly) - 1; index >= 0; index-- {
+		iters[index] = ly[index].All().Iterator()
+	}
+	return chainIterators(iters)
+}
+
 // Iterator returns an ObjectIterator for all objects
-// with the given tags in all layers
+// with the given tags in all layers from the lowest layer to highest
 func (ly Layers) TagIterator(tags ...string) ObjectIterator {
 	if len(tags) == 0 {
 		return emptyObjectIterator
 	}
 	iters := make([]ObjectIterator, len(ly)*len(tags))
 	index := 0
-	for _, tag := range tags {
-		for _, layer := range ly {
+	for _, layer := range ly {
+		for _, tag := range tags {
 			iters[index] = layer.Tagged(tag).Iterator()
+			index++
+		}
+	}
+	return chainIterators(iters)
+}
+
+// Iterator returns an ObjectIterator for all objects
+// with the given tags in all layers from the highest layer to lowest
+func (ly Layers) TagIteratorTop(tags ...string) ObjectIterator {
+	if len(tags) == 0 {
+		return emptyObjectIterator
+	}
+	iters := make([]ObjectIterator, len(ly)*len(tags))
+	index := 0
+	for layerIndex := len(ly) - 1; layerIndex >= 0; layerIndex-- {
+		for _, tag := range tags {
+			iters[index] = ly[layerIndex].Tagged(tag).Iterator()
 			index++
 		}
 	}
