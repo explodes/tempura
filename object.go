@@ -43,6 +43,11 @@ type Object struct {
 	// PostSteps is Behaviors to execute after Steps during
 	// an Update performed by Objects.
 	PostSteps Behaviors
+
+	// Meta is an arbitrary value used to hold miscellaneous
+	// information about this object.
+	// It is not used by the tempura library.
+	Meta interface{}
 }
 
 // Bounds gets the hitbox for this Object. Any Drawable will
