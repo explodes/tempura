@@ -45,6 +45,11 @@ func (u Vec) Rotated(angle float64) Vec {
 	}
 }
 
+// Len returns the length of the vector u.
+func (u Vec) Len() float64 {
+	return math.Hypot(u.X, u.Y)
+}
+
 type Rect struct {
 	Min, Max Vec
 }
