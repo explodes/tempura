@@ -191,26 +191,12 @@ func (o *Objects) Contains(obj *Object) bool {
 // Update performs all PreSteps, then all Steps, then all PostSteps
 // of Object in this container.
 func (o *Objects) Update(dt float64) {
-	iter := o.all.Iterator()
-	for object, ok := iter(); ok; object, ok = iter() {
-		object.PreSteps.Execute(object, dt)
-	}
-	iter = o.all.Iterator()
-	for object, ok := iter(); ok; object, ok = iter() {
-		object.Steps.Execute(object, dt)
-	}
-	iter = o.all.Iterator()
-	for object, ok := iter(); ok; object, ok = iter() {
-		object.PostSteps.Execute(object, dt)
-	}
+	o.all.Update(dt)
 }
 
 // Draw draws all Object in this container.
 func (o *Objects) Draw(image *ebiten.Image) {
-	iter := o.all.Iterator()
-	for object, ok := iter(); ok; object, ok = iter() {
-		object.Draw(image)
-	}
+	o.all.Draw(image)
 }
 
 // Iterator gets an ObjectIterator for all Object in this container
@@ -292,6 +278,31 @@ func (os *ObjectSet) Add(obj *Object) {
 // Remove removes objects from this set
 func (os *ObjectSet) Remove(obj *Object) {
 	os.set.Delete(obj)
+}
+
+// Update performs all PreSteps, then all Steps, then all PostSteps
+// of Object in this container.
+func (os *ObjectSet) Update(dt float64) {
+	iter := os.Iterator()
+	for object, ok := iter(); ok; object, ok = iter() {
+		object.PreSteps.Execute(object, dt)
+	}
+	iter = os.Iterator()
+	for object, ok := iter(); ok; object, ok = iter() {
+		object.Steps.Execute(object, dt)
+	}
+	iter = os.Iterator()
+	for object, ok := iter(); ok; object, ok = iter() {
+		object.PostSteps.Execute(object, dt)
+	}
+}
+
+// Draw draws all Object in this container.
+func (os *ObjectSet) Draw(image *ebiten.Image) {
+	iter := os.Iterator()
+	for object, ok := iter(); ok; object, ok = iter() {
+		object.Draw(image)
+	}
 }
 
 // objectTagMap is a defaultdict-like map for adding and removing
