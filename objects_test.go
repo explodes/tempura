@@ -203,7 +203,7 @@ func TestObjectSet_Contains(t *testing.T) {
 
 	assert.False(t, set.Contains(testObj.obj))
 
-	set.add(testObj.obj)
+	set.Add(testObj.obj)
 
 	assert.True(t, set.Contains(testObj.obj))
 }
@@ -223,7 +223,7 @@ func TestObjectSet_IteratorOrder(t *testing.T) {
 	for i := 0; i < 100; i++ {
 		testObj := newTestObject("tag")
 		expectedOrder = append(expectedOrder, testObj.obj)
-		set.add(testObj.obj)
+		set.Add(testObj.obj)
 	}
 
 	count := 0

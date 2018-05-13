@@ -169,7 +169,7 @@ func (o *Objects) Tagged(tag string) *ObjectSet {
 // Add adds an object to this container. If the Object has a Tag, that
 // tag is used to quickly access a particular subset of Object.
 func (o *Objects) Add(obj *Object) {
-	o.all.add(obj)
+	o.all.Add(obj)
 	if obj.Tag != "" {
 		o.tagged.add(obj.Tag, obj)
 	}
@@ -177,7 +177,7 @@ func (o *Objects) Add(obj *Object) {
 
 // Remove removes an object from this container.
 func (o *Objects) Remove(obj *Object) {
-	o.all.remove(obj)
+	o.all.Remove(obj)
 	if obj.Tag != "" {
 		o.tagged.remove(obj.Tag, obj)
 	}
@@ -284,13 +284,13 @@ func (os *ObjectSet) Contains(obj *Object) bool {
 	return ok
 }
 
-// add is an unexported function that adds objects to this set
-func (os *ObjectSet) add(obj *Object) {
+// Add adds objects to this set
+func (os *ObjectSet) Add(obj *Object) {
 	os.set.Set(obj, struct{}{})
 }
 
-// remove is an unexported function that remove objects from this set
-func (os *ObjectSet) remove(obj *Object) {
+// Remove removes objects from this set
+func (os *ObjectSet) Remove(obj *Object) {
 	os.set.Delete(obj)
 }
 
@@ -304,13 +304,13 @@ func (m objectTagMap) add(tag string, obj *Object) {
 		set = NewObjectSet()
 		m[tag] = set
 	}
-	set.add(obj)
+	set.Add(obj)
 }
 
 func (m objectTagMap) remove(tag string, obj *Object) {
 	set := m[tag]
 	if set != nil {
-		set.remove(obj)
+		set.Remove(obj)
 	}
 }
 
