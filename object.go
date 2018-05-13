@@ -61,11 +61,16 @@ func (o *Object) Bounds() Rect {
 // this Object. The Object's Drawable will be scaled and translated to fit
 // this Object's Bounds. It will also be rotated by Rot radians to
 // This function does nothing if this Object has no Drawable.
-func (o *Object) Draw(image *ebiten.Image) {
+//
+// The camera transformation is applied to draw, if it is not nil.
+func (o *Object) Draw(camera *ebiten.GeoM, image *ebiten.Image) {
 	if o.Drawable == nil {
 		return
 	}
 	bounds := o.Bounds()
 	mat := FitRotated(o.Rot+o.RotNormal, o.Drawable.Bounds(), bounds)
-	o.Drawable.Draw(image, mat)
+	if camera != nil {
+		mat.Concat(*camera)
+	}
+	o.Drawable.DrawAbsolute(image, mat)
 }

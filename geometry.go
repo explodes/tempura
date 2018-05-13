@@ -36,6 +36,14 @@ func (u Vec) Add(v Vec) Vec {
 	}
 }
 
+// Sub returns the vector minus another
+func (u Vec) Sub(v Vec) Vec {
+	return Vec{
+		u.X - v.X,
+		u.Y - v.Y,
+	}
+}
+
 // Rotated returns the vector u rotated by the given angle in radians.
 func (u Vec) Rotated(angle float64) Vec {
 	sin, cos := math.Sincos(angle)

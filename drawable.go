@@ -7,7 +7,7 @@ import (
 )
 
 type Drawable interface {
-	Draw(image *ebiten.Image, mat ebiten.GeoM)
+	DrawAbsolute(image *ebiten.Image, mat ebiten.GeoM)
 	Bounds() Rect
 }
 
@@ -62,7 +62,7 @@ func (d *ImageDrawable) NumFrames() int {
 	return len(d.frames)
 }
 
-func (d *ImageDrawable) Draw(image *ebiten.Image, mat ebiten.GeoM) {
+func (d *ImageDrawable) DrawAbsolute(image *ebiten.Image, mat ebiten.GeoM) {
 	frame := d.imgFrames[d.frameNum]
 	d.opts.SourceRect = &frame
 

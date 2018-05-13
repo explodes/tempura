@@ -50,9 +50,9 @@ func (ly Layers) Update(dt float64) {
 }
 
 // Draw draws all Objects Draws happen in the first layer forward.
-func (ly Layers) Draw(image *ebiten.Image) {
+func (ly Layers) Draw(camera *ebiten.GeoM,image *ebiten.Image) {
 	for _, layer := range ly {
-		layer.Draw(image)
+		layer.Draw(camera, image)
 	}
 }
 
@@ -195,8 +195,8 @@ func (o *Objects) Update(dt float64) {
 }
 
 // Draw draws all Object in this container.
-func (o *Objects) Draw(image *ebiten.Image) {
-	o.all.Draw(image)
+func (o *Objects) Draw(camera *ebiten.GeoM,image *ebiten.Image) {
+	o.all.Draw(camera, image)
 }
 
 // Iterator gets an ObjectIterator for all Object in this container
@@ -298,10 +298,10 @@ func (os *ObjectSet) Update(dt float64) {
 }
 
 // Draw draws all Object in this container.
-func (os *ObjectSet) Draw(image *ebiten.Image) {
+func (os *ObjectSet) Draw(camera *ebiten.GeoM,image *ebiten.Image) {
 	iter := os.Iterator()
 	for object, ok := iter(); ok; object, ok = iter() {
-		object.Draw(image)
+		object.Draw(camera,image)
 	}
 }
 

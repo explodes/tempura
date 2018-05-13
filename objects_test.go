@@ -63,7 +63,7 @@ func TestLayers_Draw(t *testing.T) {
 	layers := NewLayers(1)
 	layers[0].Add(testObj.obj)
 
-	layers.Draw(newTestImage(t))
+	layers.Draw(nil, newTestImage(t))
 
 	assert.Equal(t, 1, testObj.drawable.drawCount)
 }
@@ -74,7 +74,7 @@ func TestLayers_Draw_no_drawable(t *testing.T) {
 	layers := NewLayers(1)
 	layers[0].Add(testObj.obj)
 
-	layers.Draw(newTestImage(t))
+	layers.Draw(nil, newTestImage(t))
 
 	assert.Equal(t, 0, testObj.drawable.drawCount)
 }

@@ -6,6 +6,9 @@ import (
 	"github.com/hajimehoshi/ebiten"
 )
 
+
+var _ Drawable = (*testDrawable)(nil)
+
 type testObj struct {
 	obj *Object
 
@@ -20,7 +23,7 @@ type testDrawable struct {
 	drawCount int
 }
 
-func (t *testDrawable) Draw(image *ebiten.Image, mat ebiten.GeoM) {
+func (t *testDrawable) DrawAbsolute(image *ebiten.Image, mat ebiten.GeoM) {
 	t.drawCount++
 }
 
