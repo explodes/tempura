@@ -7,6 +7,7 @@ import (
 
 	"io/ioutil"
 
+	"github.com/explodes/tempura/tinge"
 	"github.com/golang/freetype/truetype"
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/audio"
@@ -21,8 +22,8 @@ type AssetFunc func(name string) ([]byte, error)
 type Loader interface {
 	Reader(name string) (io.Reader, error)
 	ReadCloser(name string) (audio.ReadSeekCloser, error)
-	Image(name string) (image.Image, error)
-	EbitenImage(name string, filter ebiten.Filter) (*ebiten.Image, error)
+	Image(name string, transforms ...tinge.Transform) (image.Image, error)
+	EbitenImage(name string, filter ebiten.Filter, transforms ...tinge.Transform) (*ebiten.Image, error)
 	Font(name string) (*truetype.Font, error)
 	Face(name string, size float64) (font.Face, error)
 	SFX(context *audio.Context, fmt, name string) (AudioPlayer, error)
@@ -72,27 +73,33 @@ func (l *loaderImpl) ReadCloser(name string) (audio.ReadSeekCloser, error) {
 	return &readSeekCloserImpl{Reader: reader}, nil
 }
 
-func (l *loaderImpl) getImage(name string) (image.Image, error) {
+func (l *loaderImpl) getImage(name string, transforms ...tinge.Transform) (image.Image, error) {
 	r, err := l.Reader(name)
 	if err != nil {
 		return nil, err
 	}
 	src, _, err := image.Decode(r)
+	for _, transform := range transforms {
+		src, err = transform(src)
+		if err != nil {
+			return nil, err
+		}
+	}
 	return src, err
 }
 
-func (l *loaderImpl) Image(name string) (image.Image, error) {
+func (l *loaderImpl) Image(name string, transforms ...tinge.Transform) (image.Image, error) {
 	if l.debug {
 		defer LogDuration("Image for %s", name).End()
 	}
-	return l.getImage(name)
+	return l.getImage(name, transforms...)
 }
 
-func (l *loaderImpl) EbitenImage(name string, filter ebiten.Filter) (*ebiten.Image, error) {
+func (l *loaderImpl) EbitenImage(name string, filter ebiten.Filter, transforms ...tinge.Transform) (*ebiten.Image, error) {
 	if l.debug {
 		defer LogDuration("EbitenImage for %s", name).End()
 	}
-	src, err := l.getImage(name)
+	src, err := l.getImage(name, transforms...)
 	if err != nil {
 		return nil, err
 	}

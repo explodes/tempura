@@ -74,3 +74,21 @@ func (d *ImageDrawable) DrawAbsolute(image *ebiten.Image, mat ebiten.GeoM) {
 func (d *ImageDrawable) Bounds() Rect {
 	return d.frames[d.frameNum]
 }
+
+func MakeFrames(wImage, hImage, cols, rows, totalFrames int) []Rect {
+	fw := float64(wImage)
+	fh := float64(hImage)
+	wFrame, hFrame := fw/float64(cols), fh/float64(rows)
+	frames := make([]Rect, 0, cols*rows)
+	frame := 0
+	for y := 0.0; y < fh; y += hFrame {
+		for x := 0.0; x < fw; x += wFrame {
+			frames = append(frames, R(x, y, x+wFrame, y+hFrame))
+			frame++
+			if frame > totalFrames {
+				return frames
+			}
+		}
+	}
+	return frames
+}
