@@ -2,6 +2,8 @@ package tempura
 
 import (
 	"math"
+
+	"github.com/hajimehoshi/ebiten"
 )
 
 type Vec struct {
@@ -51,6 +53,16 @@ func (u Vec) Rotated(angle float64) Vec {
 		u.X*cos - u.Y*sin,
 		u.X*sin + u.Y*cos,
 	}
+}
+
+// Project will project this point on a camera. The same Vec will
+// be returned if the camera is nil.
+func (u Vec) Project(camera *ebiten.GeoM) Vec {
+	if camera == nil {
+		return u
+	}
+	x, y := camera.Apply(u.X, u.Y)
+	return Vec{x, y}
 }
 
 // Len returns the length of the vector u.

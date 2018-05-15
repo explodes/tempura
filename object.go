@@ -57,6 +57,17 @@ func (o *Object) Bounds() Rect {
 	return R(o.Pos.X, o.Pos.Y, o.Pos.X+o.Size.X, o.Pos.Y+o.Size.Y)
 }
 
+// HitTest performs a hit test for the given point.
+func (o *Object) HitTest(v Vec) bool {
+	if o == nil {
+		return false
+	}
+	return o.Pos.X <= v.X &&
+		o.Pos.X+o.Size.X >= v.X &&
+		o.Pos.Y <= v.Y &&
+		o.Pos.Y+o.Size.Y >= v.Y
+}
+
 // Draw will render this Object on a target if a Drawable is associated with
 // this Object. The Object's Drawable will be scaled and translated to fit
 // this Object's Bounds. It will also be rotated by Rot radians to

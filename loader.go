@@ -79,6 +79,9 @@ func (l *loaderImpl) getImage(name string, transforms ...tinge.Transform) (image
 		return nil, err
 	}
 	src, _, err := image.Decode(r)
+	if err != nil {
+		return nil, err
+	}
 	for _, transform := range transforms {
 		src, err = transform(src)
 		if err != nil {

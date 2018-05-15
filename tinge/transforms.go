@@ -34,12 +34,12 @@ func SetAlpha(base color.Color, alpha uint8) color.Color {
 }
 
 func Colorize(newColor color.Color) Transform {
-	return func(base image.Image) (transformed image.Image, err error) {
-		transformed = &changeColorImage{
+	return func(base image.Image) (image.Image, error) {
+		img := &changeColorImage{
 			Image:    base,
 			newColor: newColor,
 		}
-		return
+		return img, nil
 	}
 }
 
