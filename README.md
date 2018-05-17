@@ -7,6 +7,10 @@ This is a collection of utilities for quickly creating games for Android, iOS, J
 [ebiten](https://github.com/hajimehoshi/ebiten). Included is a set of resources for common operations.
 
 For real usage, check out my [Tanks](https://github.com/explodes/tanks) game for Android, Web, and Linux.
+Play it [here! (2-player local)](https://explod.io/hosted/tanks.html)
+
+See also, [tempura-template](https://github.com/explodes/tempura-template) for a quick set up to create and 
+deploy a new game quickly.
 
 Loader
 ------
