@@ -60,7 +60,7 @@ func (a *inputAdapter) downTouch(camera *ebiten.GeoM, touch ebiten.Touch) {
 	index := touch.ID()
 	a.ensurePointerIndex(index)
 
-	wasDown := isDownEvent(a.touches[index].Event)
+	wasDown := IsDownEvent(a.touches[index].Event)
 
 	x, y := touch.Position()
 	cx, cy := cameraXY(camera, x, y)
@@ -92,7 +92,7 @@ func (a *inputAdapter) upTouches() {
 		if tested {
 			continue
 		}
-		wasDown := isDownEvent(a.touches[index].Event)
+		wasDown := IsDownEvent(a.touches[index].Event)
 		switch {
 		case !wasDown:
 			if a.touches[index].Event != TouchNone {

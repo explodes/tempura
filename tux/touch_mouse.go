@@ -26,7 +26,7 @@ func (a *inputAdapter) update(camera *ebiten.GeoM) []Touch {
 }
 
 func (a *inputAdapter) updateTouch(camera *ebiten.GeoM, index int, button ebiten.MouseButton) {
-	wasDown := isDownEvent(a.touches[index].Event)
+	wasDown := IsDownEvent(a.touches[index].State)
 	justPressed := inpututil.IsMouseButtonJustPressed(button)
 	justReleased := inpututil.IsMouseButtonJustReleased(button)
 	isDown := justPressed || (wasDown && !justReleased)
@@ -36,15 +36,15 @@ func (a *inputAdapter) updateTouch(camera *ebiten.GeoM, index int, button ebiten
 
 	switch {
 	case !wasDown && !isDown:
-		a.touches[index].Event = TouchNone
+		a.touches[index].State = TouchNone
 	case !wasDown && isDown:
-		a.touches[index].Event = TouchDown
+		a.touches[index].State = TouchDown
 	case wasDown && isDown:
-		if a.touches[index].Event == TouchDown && cx != a.touches[index].Position.X && cy != a.touches[index].Position.Y {
-			a.touches[index].Event = TouchDrag
+		if a.touches[index].State == TouchDown && cx != a.touches[index].Position.X && cy != a.touches[index].Position.Y {
+			a.touches[index].State = TouchDrag
 		}
 	case wasDown && !isDown:
-		a.touches[index].Event = TouchUp
+		a.touches[index].State = TouchUp
 	}
 
 	a.touches[index].Position.X = float64(cx)
